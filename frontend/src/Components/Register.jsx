@@ -6,6 +6,8 @@ import { useNavigate } from "react-router-dom";
 import Header from './Header.jsx';
 import { useDispatch } from "react-redux";
 import { setUserData, setUserID } from '../Redux/actions.js';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const Register = () => {
     const navigate = useNavigate();
@@ -31,10 +33,10 @@ const Register = () => {
         const { name, value, type, files } = e.target;
         if (name === 'Skills') {
             // Handle multiple selections
-            const options = Array.from(e.target.selectedOptions, (option) => option.value);
+            const Arr = Array.from(e.target.selectedOptions, (option) => option.value);
             setFormData({
                 ...formData,
-                Skills: options,
+                Skills: Arr,
             });
         } else {
             setFormData({
@@ -44,57 +46,72 @@ const Register = () => {
         }
     };
 
-    const handleSubmit = async(e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log('Form Data:', formData);
+      
         const headers = {
-            "Content-Type": "multipart/form-data", // multer problem due to this
-          };
-          axios
-            .post(`${BaseUrl()}/user/auth/register`, formData, {
-              headers: headers,
+          "Content-Type": "multipart/form-data",
+        };
+      
+        const registrationPromise = axios.post(
+          `${BaseUrl()}/user/auth/register`,
+          formData,
+          { headers }
+        );
+      
+        toast.promise(
+          registrationPromise,
+          {
+            pending: 'Registration in progress, please wait...',
+            success: 'Registration successful!',
+            error: 'Registration failed. Please try again.'
+          }
+        );
+      
+        try {
+          const response = await registrationPromise;
+      
+          navigate('/display', {});
+          Dispatch(
+            setUserData({
+              FirstName: response.data.FirstName,
+              MiddleName: response.data.MiddleName,
+              LastName: response.data.LastName,
+              Email: response.data.Email,
+              Gender: response.data.Gender,
+              Department: response.data.Department,
+              Year: response.data.Year,
+              RollNumber: response.data.RollNumber,
+              Phone: response.data.Phone,
+              Skills: response.data.Skills,
+              ProfilePic: response.data.ProfilePic,
+              Resume: response.data.Resume,
+              Password: response.data.Password,
+              Status: response.data.Status
             })
-            .then((response) => {
-                console.log("added");
-                navigate('/display',{})
-                Dispatch(
-                    setUserData({
-                        FirstName : response.data.FirstName,
-                        MiddleName: response.data.MiddleName,
-                        LastName: response.data.LastName,
-                        Email: response.data.Email,
-                        Gender: response.data.Gender,
-                        Department: response.data.Department,
-                        Year: response.data.Year,
-                        RollNumber: response.data.RollNumber,
-                        Phone: response.data.Phone,
-                        Skills: response.data.Skills,
-                        ProfilePic: response.data.ProfilePic,
-                        Resume: response.data.Resume,
-                        Password: response.data.Password,
-                        Status: response.data.Status
-                    })
-                )
-                setFormData({
-                    FirstName: '',
-                    MiddleName: '',
-                    LastName: '',
-                    Email: '',
-                    Gender:'',
-                    Department: '',
-                    Year: '',
-                    RollNumber: '',
-                    Phone: '',
-                    Skills: [],
-                    ProfilePic: null,
-                    Resume: null,
-                    Password: '',
-                })
-              })
-              .catch((error) => {
-                console.error(error);
-              });
-    };
+          );
+      
+          setFormData({
+            FirstName: '',
+            MiddleName: '',
+            LastName: '',
+            Email: '',
+            Gender: '',
+            Department: '',
+            Year: '',
+            RollNumber: '',
+            Phone: '',
+            Skills: [],
+            ProfilePic: null,
+            Resume: null,
+            Password: '',
+          });
+      
+        } catch (error) {
+          console.error(error);
+          // Optional: show more detailed error if needed
+        }
+      };
 
     const skillOptions = [
         'C','C++','Java','Python',
@@ -124,6 +141,7 @@ const Register = () => {
     return (
     <>
         <Header/>
+        <ToastContainer />
         <div className="register-container">
             <form className="register-form" onSubmit={handleSubmit} encType="multipart/form-data"> {/* multer problem */}
                 <h2>Register</h2>

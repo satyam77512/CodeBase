@@ -20,9 +20,8 @@ const Login = () => {
             "Content-Type": "application/json", // multer problem due to this
           };
           axios
-            .post(`${BaseUrl()}/user/auth/login`, {Loginid,Password}, {
+          .post(`${BaseUrl()}/user/auth/login`, {Loginid,Password}, {
               headers: headers,
-            //   withCredentials:true,
             })
             .then((response)=>{
                 navigate('/display',{})

@@ -21,11 +21,12 @@ const Register = () => {
           }
           else
           {
-            // console.log(userData);
+            console.log(userData);
             setFormData(userData);
           }
         }, [navigate,userData]);
-    
+
+    const [userStatus,setStatus] = useState(userData.Status);
     const [formData, setFormData] = useState({
         FirstName: '',
         MiddleName: '',
@@ -36,7 +37,7 @@ const Register = () => {
         Year: '',
         Phone: '',
         Skills: [],
-        Resume: ''
+        Resume: '',
     });
 
     const handleChange = (e) => {
@@ -81,10 +82,12 @@ const Register = () => {
                     Skills: response.data.Skills,
                     ProfilePic: response.data.ProfilePic,
                     Resume: response.data.Resume,
-                    RollNumber:response.data.RollNumber
+                    RollNumber:response.data.RollNumber,
+                    Status:userStatus
                 }))
                 navigate("/display");
               })
+              
               .catch((error) => {
                 console.error(error);
               });

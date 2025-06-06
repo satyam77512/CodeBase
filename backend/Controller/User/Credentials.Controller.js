@@ -91,7 +91,7 @@ const registerHandler = async (req, res) => {
 };
 
 const loginHandler = async(req,res)=>{
-
+    
     const {Loginid,Password} = req.body;
 
     const user = await UserCredentials.findOne({Loginid});
