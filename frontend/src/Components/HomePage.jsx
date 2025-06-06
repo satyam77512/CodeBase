@@ -7,6 +7,8 @@ import { BaseUrl } from '../BaseUrl.js';
 import Cards from './Card.jsx';
 import { useSelector } from 'react-redux';
 import { useLocation , useNavigate } from 'react-router-dom';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const HomePage = ()=>{
     const userData = useSelector((state)=> state.userData)
@@ -65,7 +67,7 @@ const HomePage = ()=>{
     };
 
     // Handle search action
-    const handleSearch = (e) => {
+    const handleSearch = async(e) => {
         console.log("Searching with filters:", filters);
         setSearched(true);
 
@@ -73,17 +75,21 @@ const HomePage = ()=>{
         const headers = {
             "Content-Type": "application/json", // multer problem due to this
           };
-          axios
-            .post(`${BaseUrl()}/user/search/filter`,filters, {
+          const searchPromise = axios.post(`${BaseUrl()}/user/search/filter`,filters, {
               headers: headers,
             })
-            .then((response)=>{
-                // console.log(response.data);
-               setUsers(response.data);
+
+            toast.promise(searchPromise,{
+                    pending: 'please wait...',
+                    success: 'done!',
+                    error: 'fail to search please try again'
             })
-            .catch((err)=>{
-                console.log(err);
-            })
+            try {
+                const response = await searchPromise;
+                setUsers(response.data);
+            } catch (error) {
+                console.log(error);
+            }
     };
     const skillOptions = [
         'C','C++','Java','Python',
@@ -113,6 +119,7 @@ const HomePage = ()=>{
     return (
     <>
         <Header/>
+        <ToastContainer/>
         <div className="main-page-container">
         <h1 className="main-page-title">Filter Users</h1>
         <div className="filter-container">
