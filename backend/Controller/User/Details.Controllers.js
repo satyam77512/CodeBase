@@ -4,13 +4,14 @@ const upload = require('../../Middlewares/multer.js'); // Multer setup
 const path = require('path');
 const fs = require("fs");
 const cloudinary = require("../../Utils/cloudinary.js");
+const sort = require('fast-sort');
 
 const uploadMiddleware1 = upload.fields([
     { name: 'imageFile', maxCount: 1 }, // Single profile picture
 ]);
 const filterUser = async(req,res)=>{
-    const {department , year, skills, gender} = req.body;
-    // console.log(req.body);
+    const {department,year, skills, gender} = req.body;
+
     try{
         const query = {};
 
@@ -27,10 +28,31 @@ const filterUser = async(req,res)=>{
             query.Skills = { $in: skills }; // Reference `skills` from request body
         }
         // Find users matching the query
-        const users = await UserDetails.find(query);         
-      
-       
-        return res.status(200).json(users);
+        const users = await UserDetails.find(query);
+        // console.log(typeof(users))
+        const arr = [];
+        users.forEach(user => {
+            var match = 0;
+            for(var skill in skills)
+            {
+                for(var key in user.Skills)
+                {
+                    if(user.Skills[key]===skills[skill])
+                        match = match+1;
+                }
+            }
+            arr.push({user,match});
+        });
+
+        arr.sort((a,b)=> b.match - a.match);
+        const sortedUsers = [];
+        arr.forEach(ele=>{
+            sortedUsers.push(ele.user);
+        })
+
+        console.log(sortedUsers);
+
+        return res.status(200).json(sortedUsers);
     }catch(err){
         console.log(err);
     }

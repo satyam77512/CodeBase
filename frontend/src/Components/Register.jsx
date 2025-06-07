@@ -221,6 +221,7 @@ const Register = () => {
                     </div> */}
                     
                 <div className="form-group">
+                <label htmlFor="department">Department</label>
                     <select
                     id="Department"
                     name="Department"
