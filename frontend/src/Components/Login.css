@@ -1,0 +1,64 @@
+/* Container for the login form */
+.login-container {
+    display: flex;
+    position: relative; /* mai add kiya hu */
+    top:100px; /* mai add kiya hu */
+    left:40%;
+    width:30%;
+    flex-wrap: wrap;
+    flex-direction: row-reverse;
+    background-color: black; /* Black background for the page */
+    color: white; /* White text */
+}
+
+/* Login form styles */
+.login-form {
+    background-color: white; /* White background for the form */
+    color: black; /* Black text inside the form */
+    padding: 30px 40px;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
+    width: 300px;
+    text-align: center;
+}
+
+/* Form heading */
+.login-form h2 {
+    margin-bottom: 20px;
+    font-size: 1.5rem;
+}
+
+/* Form group styles */
+.form-group {
+    margin-bottom: 15px;
+    text-align: left;
+}
+
+/* Label styles */
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+/* Input field styles */
+.form-group input {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 1rem;
+}
+
+/* Login button styles */
+.login-button {
+    background-color: black; /* Black button */
+    color: white; /* White text */
+    border: none;
+    border-radius: 4px;
+    padding: 10px 15px;
+    font-size: 1rem;
+    cursor: pointer;
+    width: 100%;
+    transition: background-color 0.3s, color 0.3s;
+}

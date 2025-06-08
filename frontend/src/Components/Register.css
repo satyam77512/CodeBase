@@ -1,0 +1,77 @@
+/* Container for the registration form */
+.register-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* height: 100vh; */
+    background-color: black; /* Black background */
+    color: white; /* White text */
+    padding-top: 50px;
+    padding-bottom: 500px;
+}
+
+/* Registration form styles */
+.register-form {
+    background-color: white; /* White background for the form */
+    color: black; /* Black text */
+    padding: 20px 30px;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
+    width: 400px;
+    text-align: left;
+}
+
+/* Form heading */
+.register-form h2 {
+    margin-bottom: 20px;
+    text-align: center;
+    font-size: 1.5rem;
+}
+
+/* Form group styles */
+.form-group {
+    margin-bottom: 15px;
+}
+
+/* Label styles */
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+/* Input, select, and textarea field styles */
+.form-group input,
+.form-group select,
+.form-group textarea {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 1rem;
+}
+
+/* Hint for multiple selection */
+.hint {
+    font-size: 0.85rem;
+    color: gray;
+}
+
+/* Registration button styles */
+.register-button {
+    background-color: black; /* Black button */
+    color: white; /* White text */
+    border: none;
+    border-radius: 4px;
+    padding: 10px 15px;
+    font-size: 1rem;
+    cursor: pointer;
+    width: 100%;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.register-button:hover {
+    background-color: white; /* Invert colors on hover */
+    color: black;
+    border: 1px solid black;
+}

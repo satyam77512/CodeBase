@@ -1,0 +1,93 @@
+body {
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #000;
+    color: #fff;
+  }
+  
+  .container {
+    padding: 20px;
+    max-width: 800px;
+    margin: auto;
+  }
+  
+  .header {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    margin-bottom: 20px;
+  }
+  
+  .profile-pic {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-right: 20px;
+    border: 2px solid #fff;
+  }
+  
+  .greeting {
+    font-size: 24px;
+    font-weight: bold;
+    color: #fff;
+  }
+  
+  .content {
+    background-color: #111;
+    padding: 20px;
+    border-radius: 8px;
+    border: 1px solid #fff;
+  }
+  
+  .info-item {
+    margin-bottom: 10px;
+  }
+  
+  .info-item strong {
+    color: #f0f0f0;
+  }
+  
+  .info-item a {
+    color: #1e90ff;
+    text-decoration: none;
+  }
+  
+  .info-item a:hover {
+    text-decoration: underline;
+  }
+
+  .status-indicator {
+    display: inline-block;
+    padding: 10px 20px;
+    font-size: 16px;
+    font-weight: bold;
+    color: white;
+    border-radius: 25px;
+    text-align: center;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, background-color 0.3s ease;
+  }
+  
+  /* Active Status Styles */
+  .status-indicator.active {
+    background-color: #28a745;
+  }
+  
+  .status-indicator.active:hover {
+    background-color: #218838;
+    transform: scale(1.05);
+  }
+  
+  /* Busy Status Styles */
+  .status-indicator.busy {
+    background-color: #dc3545;
+  }
+  
+  .status-indicator.busy:hover {
+    background-color: #c82333;
+    transform: scale(1.05);
+  }
+  
+  

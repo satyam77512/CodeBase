@@ -1,0 +1,124 @@
+/* Container for all cards */
+.cards-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+    padding: 20px;
+    background-color: black; /* Dark background for the container */
+  }
+  
+  /* Card styles */
+  .card {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 400px;
+    padding: 20px;
+    border: 1px solid #333; /* Darker border for contrast */
+    border-radius: 10px;
+    background-color: #1e1e1e; /* Dark card background */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.5);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  .card:hover {
+    transform: scale(1.05);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.8);
+  }
+  
+  /* Content within the card */
+  .card-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+  }
+  
+  /* User info section */
+  .card-info {
+    flex: 1;
+  }
+  
+  .user-name {
+    font-size: 18px;
+    font-weight: 600;
+    color: #ffffff; /* White text for better contrast */
+    margin-bottom: 10px;
+  }
+  
+  /* View Profile button */
+  .view-profile-button {
+    display: inline-block;
+    padding: 8px 16px;
+    font-size: 14px;
+    color: #ffffff; /* White text */
+    background-color: #007bff; /* Blue background */
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-bottom: 10px;
+    transition: background-color 0.3s ease;
+  }
+  
+  .view-profile-button:hover {
+    background-color: #0056b3; /* Darker blue on hover */
+  }
+  
+  /* Skills section */
+  .skills {
+    font-size: 14px;
+    color: #bbbbbb; /* Light grey for less emphasis */
+  }
+  
+  /* Profile image container */
+  .card-image-container {
+    margin-left: 20px;
+  }
+  
+  /* Profile image */
+  .card-image {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    border: 2px solid #444; /* Subtle border for contrast */
+    object-fit: cover;
+  }
+
+  /* Add this to your Card.css file */
+
+/* Dot Status Container */
+.status-dot-container {
+  display: flex;
+  align-items: center;
+  gap: 8px; /* Space between dot and text */
+  margin: 10px 0; /* Add some spacing */
+}
+
+/* The Dot */
+.status-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  display: inline-block;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Add depth */
+}
+
+/* Active Dot (Green) */
+.status-dot.dot-active {
+  background-color: #28a745; /* Green */
+}
+
+/* Busy Dot (Red) */
+.status-dot.dot-busy {
+  background-color: #dc3545; /* Red */
+}
+
+/* Status Text */
+.status-text {
+  font-size: 14px;
+  font-weight: bold;
+  color: aliceblue;
+}
+
+  
