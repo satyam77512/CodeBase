@@ -8,7 +8,7 @@ connectToMongo();
 var cors = require("cors");
 // kis jagah se request ayega , request ka origin kya hai.
 app.use(cors({
-  origin: ["http://localhost:5173","https://code-base-wdwg.vercel.app/"]
+  origin: ["http://localhost:5173","https://code-base-wdwg.vercel.app"]
 }));
 app.use(express.json()); //to convert request data to json
 
