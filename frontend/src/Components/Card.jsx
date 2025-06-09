@@ -7,7 +7,6 @@ const Cards = ({ index, user }) => {
   const [selectedUser, setSelectedUser] = useState(null); // State to hold the selected user
 
   const viewProfileHandler = (RollNumber) => {
-    console.log(RollNumber);
     setSelectedUser(RollNumber); // Set the RollNumber of the selected user
   };
 

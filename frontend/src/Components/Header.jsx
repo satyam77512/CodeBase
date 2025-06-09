@@ -14,7 +14,7 @@ const Header = () => {
     {
       setLoggedIn(true);
     }
-    console.log(userData);
+    
   },[userData])
 
   const homeClick = ()=>{

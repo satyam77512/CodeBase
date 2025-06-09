@@ -166,13 +166,22 @@ const activeUsers = async(req,res)=>{
 }
 
 const deleteProfile = async(req,res)=>{
+
     const user = await UserDetails.findOne({RollNumber:req.body.RollNumber});
-    const oldPath = user.ProfilePicPublicId;
-    await cloudinary.uploader.destroy(oldPath);
-    await UserDetails.findOneAndDelete({RollNumber:req.body.RollNumber});
-    await UserCredentials.findOneAndDelete({RollNumber:req.body.RollNumber});
-    const data = true;
-    return res.json(data);
+    if(user)
+    {
+        const oldPath = user.ProfilePicPublicId;
+        await cloudinary.uploader.destroy(oldPath);
+        await UserDetails.findOneAndDelete({RollNumber:req.body.RollNumber});
+        await UserCredentials.findOneAndDelete({RollNumber:req.body.RollNumber});
+        const data = true;
+        return res.json(data);
+    }
+    else
+    {
+         const data = true;
+        return res.json(data);
+    }
 }
 
 module.exports = {filterUser,viewProfile,Update,ToggleStatus,changeProfile,activeUsers,deleteProfile};

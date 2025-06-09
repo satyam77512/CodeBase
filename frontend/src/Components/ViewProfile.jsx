@@ -1,25 +1,35 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import './ViewProfile.css';
 import { BaseUrl } from '../BaseUrl.js';
 import { useState } from 'react';
 import axios from 'axios';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const ViewProfile = (RollNumber) => {
-    const [data, setData] = useState();
-    const headers = {
-        "Content-Type": "application/json", // multer problem due to this
-      };
-      axios
-        .post(`${BaseUrl()}/user/search/viewProfile`,RollNumber, {
-          headers: headers,
-        })
-        .then((response)=>{
-            // console.log(response.data);
-           setData(response.data);
-        })
-        .catch((err)=>{
-            console.log(err);
-        })
+    const [data, setData] = useState(null);
+    useEffect(() => {
+        const fetchUsers = async () => {
+            const headers = {
+            "Content-Type": "application/json", // multer problem due to this
+            };
+            const viewPromise = axios.post(`${BaseUrl()}/user/search/viewProfile`,RollNumber, {
+                headers: headers,
+            });
+            toast.promise(viewPromise,{
+                pending:"fetching..",
+                error:"fail to fetch! try again.."
+            })
+            try {
+                const response = await viewPromise;
+                setData(response.data);
+            } catch (error) {
+                console.log(error);
+                
+            }
+        }
+        fetchUsers();
+    },[]);
 
   return (
     <>
@@ -81,9 +91,6 @@ const ViewProfile = (RollNumber) => {
             ) : (
                 'N/A'
             )}
-            </div>
-            <div className="info-item">
-            <strong>Password:</strong> {data.Password || '######'}
             </div>
         </div>
     </div>

@@ -72,31 +72,37 @@ const DisplayPage = () => {
       });
     }
   };
-  const [ans,setAns] = useState(false);
 
-  const handleDelete = async() =>{
-
-    setAns(prompt("Do you want to delete account (YES/NO)"));
+  const handleDelete = async(e) =>{
     e.preventDefault();
+    const ans = prompt("Do you want to delete account (YES/NO)");
+    if(ans==="YES")
+    {
+      const headers = {
+          "Content-Type": "application/json", // multer problem due to this
+        };
 
-    const formData = new FormData();
-    formData.append('RollNumber', data.RollNumber);
-    const DeletePromise = axios.put(`${BaseUrl()}/user/details/deleteProfile`, formData);
+      const formData = new FormData();
+      formData.append('RollNumber', data.RollNumber);
 
-    toast.promise(DeletePromise, {
-      pending: 'Deleting..',
-      success: 'Done!',
-      error: 'Please try again.',
-    });   
-
-    try {
-      const response = await DeletePromise;
-      if(response.data)
-      {
-        redirect("/logout");
+      const DeletePromise = axios.post(`${BaseUrl()}/user/details/deleteProfile`, formData,{
+        headers: headers,
+      });
+      toast.promise(DeletePromise, {
+        pending: 'Deleting..',
+        success: 'Done!',
+        error: 'Please try again.',
+      });   
+  
+      try {
+        const response = await DeletePromise;
+        if(response.data)
+        {
+          navigate("/logout");
+        }
+      } catch (error) {
+        console.log(error);
       }
-    } catch (error) {
-      console.log(error);
     }
   }
 
