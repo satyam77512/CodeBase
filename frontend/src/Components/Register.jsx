@@ -9,6 +9,7 @@ import { setUserData, setUserID } from '../Redux/actions.js';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
+
 const Register = () => {
     const navigate = useNavigate();
     const Dispatch = useDispatch();

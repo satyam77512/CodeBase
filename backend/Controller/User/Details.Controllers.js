@@ -5,6 +5,7 @@ const path = require('path');
 const fs = require("fs");
 const cloudinary = require("../../Utils/cloudinary.js");
 const sort = require('fast-sort');
+const { removeAllListeners } = require('process');
 
 const uploadMiddleware1 = upload.fields([
     { name: 'imageFile', maxCount: 1 }, // Single profile picture
@@ -50,7 +51,7 @@ const filterUser = async(req,res)=>{
             sortedUsers.push(ele.user);
         })
 
-        console.log(sortedUsers);
+        // console.log(sortedUsers);
 
         return res.status(200).json(sortedUsers);
     }catch(err){
@@ -160,9 +161,18 @@ const changeProfile = async(req,res)=>{
 }
 
 const activeUsers = async(req,res)=>{
-    const users = await UserDetails.find({Status : true});
+    const users = await UserDetails.find({Status : true}).limit(10);
     return res.status(200).json(users);
 }
 
+const deleteProfile = async(req,res)=>{
+    const user = await UserDetails.findOne({RollNumber:req.body.RollNumber});
+    const oldPath = user.ProfilePicPublicId;
+    await cloudinary.uploader.destroy(oldPath);
+    await UserDetails.findOneAndDelete({RollNumber:req.body.RollNumber});
+    await UserCredentials.findOneAndDelete({RollNumber:req.body.RollNumber});
+    const data = true;
+    return res.json(data);
+}
 
-module.exports = {filterUser,viewProfile,Update,ToggleStatus,changeProfile,activeUsers};
+module.exports = {filterUser,viewProfile,Update,ToggleStatus,changeProfile,activeUsers,deleteProfile};

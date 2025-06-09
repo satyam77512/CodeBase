@@ -22,22 +22,35 @@ const HomePage = ()=>{
         }
       }, [navigate,userData]);
 
-      useEffect(()=>{
-        const headers = {
-            "Content-Type": "application/json", // multer problem due to this
-          };
-          axios
-            .post(`${BaseUrl()}/user/search/activeUsers`,{}, {
-              headers: headers,
-            })
-            .then((response)=>{
-                // console.log(response.data);
-               setActiveUsers(response.data);
-            })
-            .catch((err)=>{
-                console.log(err);
-            })
-      },[searched == false]);
+  useEffect(() => {
+    
+  const fetchActiveUsers = async () => {
+    try {
+      const headers = {
+        "Content-Type": "application/json",
+      };
+      const getActiveUsersPromise = axios.post(
+        `${BaseUrl()}/user/search/activeUsers`,
+        {},
+        { headers }
+      );
+
+      toast.promise(getActiveUsersPromise, {
+        pending: 'Fetching active users...',
+      });
+
+      const response = await getActiveUsersPromise;
+      setActiveUsers(response.data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  if (searched === false) {
+    fetchActiveUsers();
+  }
+}, [searched]);
+
       
     // State to store filter values
     const [filters, setFilters] = useState({
@@ -80,12 +93,13 @@ const HomePage = ()=>{
             })
 
             toast.promise(searchPromise,{
-                    pending: 'please wait...',
-                    success: 'done!',
-                    error: 'fail to search please try again'
+                pending: 'please wait...',
+                success: 'done!',
+                error: 'fail to search please try again'
             })
             try {
                 const response = await searchPromise;
+                console.log(response.data);
                 setUsers(response.data);
             } catch (error) {
                 console.log(error);

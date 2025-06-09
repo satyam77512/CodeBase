@@ -10,11 +10,11 @@ const Header = () => {
   const [loggedIn,setLoggedIn] = useState(false);
 
   useEffect(()=>{
-    if(userData)
+    if(userData && userData.RollNumber)
     {
       setLoggedIn(true);
     }
-
+    console.log(userData);
   },[userData])
 
   const homeClick = ()=>{

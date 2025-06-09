@@ -6,6 +6,8 @@ import { useNavigate } from "react-router-dom";
 import Header from './Header.jsx';
 import { setUserData,setUserID } from '../Redux/actions.js';
 import { useDispatch } from 'react-redux';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const Login = () => {
     const navigate = useNavigate();
@@ -14,16 +16,22 @@ const Login = () => {
     const [Loginid, setLognid] = useState('');
     const [Password, setPassword] = useState('');
     
-    const handleSubmit = (e) => {
+    const handleSubmit = async(e) => {
         e.preventDefault();
         const headers = {
             "Content-Type": "application/json", // multer problem due to this
           };
-          axios
-          .post(`${BaseUrl()}/user/auth/login`, {Loginid,Password}, {
+          const loginPromise = axios.post(`${BaseUrl()}/user/auth/login`, {Loginid,Password}, {
               headers: headers,
-            })
-            .then((response)=>{
+            });
+
+            toast.promise(loginPromise,{
+                pending: 'Getting you logged-IN',
+                error: 'Wrong Credentials'
+            });
+
+            try {
+                const response = await loginPromise;
                 navigate('/display',{})
                 Dispatch(
                     setUserData({
@@ -44,11 +52,10 @@ const Login = () => {
                 )
                 setLognid('')
                 setPassword('')
-            })
-            .catch((err)=>{
+            } catch (error) {
                 console.log(err);
-                alert('wrong credentials');
-            })
+                alert("WRONG CREDENTIALS");
+            }
     };
 
     const handleClick = ()=>{
@@ -61,19 +68,13 @@ const Login = () => {
             const headers = {
                 "Content-Type": "application/json", // multer problem due to this
               };
-              axios
-                .post(`${BaseUrl()}/user/auth/email`,{Loginid}, {
+              const mailPromise = axios.post(`${BaseUrl()}/user/auth/email`,{Loginid}, {
                   headers: headers,
-                })
-                .then((response)=>{
-                    if(response.data.success)
-                    {
-                        alert("Password reset link sent to registered email");
-                    }
-                    else
-                    {
-                        alert("email cann0t be sent");
-                    }
+                });
+                toast.promise(mailPromise,{
+                    pending: 'finding your email',
+                    success: 'Password reset link is sent to your email',
+                    error: 'Please try again.'
                 })
         }
     }
@@ -81,6 +82,7 @@ const Login = () => {
     return (
     <>
         <Header/>
+        <ToastContainer/>
         <div className="login-container">
             <form className="login-form" onSubmit={handleSubmit}>
                 <h2>Login</h2>

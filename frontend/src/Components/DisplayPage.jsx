@@ -1,6 +1,6 @@
 import React from 'react';
 import './DisplayPage.css';
-import { useNavigate } from 'react-router-dom';
+import { redirect, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { updateUserdata } from '../Redux/actions';
 import { BaseUrl } from '../BaseUrl.js';
@@ -36,18 +36,27 @@ const DisplayPage = () => {
   const handleCloseModal = () => setIsModalOpen(false);
   const HandleChange = (e) => setImageFile(e.target.files[0]);
 
-  const handleFileUpload = (e) => {
+  const handleFileUpload = async(e) => {
     e.preventDefault();
     const formData = new FormData();
     formData.append('imageFile', imageFile);
     formData.append('RollNumber', data.RollNumber);
 
-    axios
-      .put(`${BaseUrl()}/user/details/changeProfile`, formData)
-      .then((response) => {
+    const UpdatePicPromise = axios.put(`${BaseUrl()}/user/details/changeProfile`, formData);
+
+    toast.promise(UpdatePicPromise, {
+      pending: 'Updating..',
+      success: 'Done!',
+      error: 'Please try again.',
+    });
+      try {
+        const response = await UpdatePicPromise;
         dispatch(updateUserdata("ProfilePic", response.data));
         setIsModalOpen(false);
-      });
+      } catch (error) {
+        console.log(error);
+        alert("Server Error");
+      }
   };
 
   const handleClick = async () => {
@@ -63,6 +72,33 @@ const DisplayPage = () => {
       });
     }
   };
+  const [ans,setAns] = useState(false);
+
+  const handleDelete = async() =>{
+
+    setAns(prompt("Do you want to delete account (YES/NO)"));
+    e.preventDefault();
+
+    const formData = new FormData();
+    formData.append('RollNumber', data.RollNumber);
+    const DeletePromise = axios.put(`${BaseUrl()}/user/details/deleteProfile`, formData);
+
+    toast.promise(DeletePromise, {
+      pending: 'Deleting..',
+      success: 'Done!',
+      error: 'Please try again.',
+    });   
+
+    try {
+      const response = await DeletePromise;
+      if(response.data)
+      {
+        redirect("/logout");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
   return (
     <>
@@ -126,8 +162,14 @@ const DisplayPage = () => {
                 'N/A'
               )}
             </div>
-
-            <button className="Forgot_password_button" onClick={handleClick}>Change Password</button>
+            <div style={{ display: 'flex', gap: '16px', marginTop: '20px' }}>
+                <button className="Forgot_password_button" onClick={handleClick}>
+                  Change Password
+                </button>
+                <button className="Forgot_password_button" onClick={handleDelete}>
+                  Delete Profile
+                </button>
+            </div>
           </div>
         </div>
       )}
