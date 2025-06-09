@@ -293,7 +293,7 @@ const Register = () => {
                 </div>
 
                 <div className="form-group">
-                    <label htmlFor="resume">Resume / CV</label>
+                    <label htmlFor="resume">Resume / CV LINK</label>
                     <input
                         type="text"
                         id="Resume"
